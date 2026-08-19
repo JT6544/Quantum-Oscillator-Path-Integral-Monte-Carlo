@@ -120,61 +120,61 @@ from `--quick`.
 
 In units where $hbar=1$, the Hamiltonian of a one-dimensional particle is
 
-$$
+```math
 H
 =
 \frac{p^2}{2m}+V(x).
-$$
+```
 
 The project considers three even potentials.
 
 For the harmonic oscillator,
 
-$$
+```math
 V_{\mathrm{H}}(x)=\frac{1}{2}kx^2.
-$$
+```
 
 For the quartic anharmonic oscillator,
 
-$$
+```math
 V_{\mathrm{A}}(x)
 =
 \frac{1}{2}kx^2+\lambda x^4,
 \qquad \lambda>0.
-$$
+```
 
 For the symmetric double well,
 
-$$
+```math
 V_{\mathrm{D}}(x)
 =
 ax^4+bx^2,
 \qquad a>0,
 \qquad b<0.
-$$
+```
 
 The harmonic-oscillator angular frequency and exact spectrum are
 
-$$
+```math
 \omega=\sqrt{\frac{k}{m}},
-$$
+```
 
 and
 
-$$
+```math
 E_n
 =
 \left(n+\frac{1}{2}\right)\omega.
-$$
+```
 
 Its ground-state probability density is
 
-$$
+```math
 |\psi_0(x)|^2
 =
 \sqrt{\frac{m\omega}{\pi}}
 e^{-m\omega x^2}.
-$$
+```
 
 The anharmonic and double-well spectra do not have equally simple general
 closed forms. The program therefore also constructs and diagonalises a
@@ -185,24 +185,24 @@ finite-difference Hamiltonian for all nine parameter sets.
 At inverse temperature, or total Euclidean extent, $\beta$, the partition
 function is
 
-$$
+```math
 Z(\beta)
 =
-\operatorname{Tr}\left(e^{-\beta H}\right).
-$$
+\mathrm{Tr}\left(e^{-\beta H}\right).
+```
 
 After continuing to imaginary time $\tau$, it can be written as an integral
 over periodic paths:
 
-$$
+```math
 Z(\beta)
 =
 \int_{x(\beta)=x(0)}\mathcal{D}x\;e^{-S_E[x]}.
-$$
+```
 
 The Euclidean action is
 
-$$
+```math
 S_E[x]
 =
 \int_0^\beta
@@ -211,7 +211,7 @@ S_E[x]
 \left(\frac{dx}{d\tau}\right)^2
 +V(x)
 \right]d\tau.
-$$
+```
 
 The factor $e^{-S_E}$ is real and non-negative for the potentials used here,
 so it can be sampled as a probability weight.
@@ -225,13 +225,13 @@ $e^{-\beta V(x)}$.
 
 The interval $[0,\beta)$ is divided into $N$ sites with spacing
 
-$$
+```math
 a_\tau=\frac{\beta}{N}.
-$$
+```
 
 With periodic indexing $x_N=x_0$, the primitive lattice action is
 
-$$
+```math
 S_E^{(N)}
 =
 \sum_{j=0}^{N-1}
@@ -239,20 +239,20 @@ S_E^{(N)}
 \frac{m}{2a_\tau}(x_{j+1}-x_j)^2
 +a_\tau V(x_j)
 \right].
-$$
+```
 
 The first term is essential. It couples neighbouring imaginary-time sites and
 distinguishes a quantum path ensemble from independent scalar sampling.
 
 The default production lattice uses
 
-$$
+```math
 \beta=16,
 \qquad
 N=256,
 \qquad
 a_\tau=0.0625.
-$$
+```
 
 ## Main Aim
 
@@ -299,24 +299,24 @@ For each of the nine production parameter sets, the program:
 
 For one lattice site, the program proposes
 
-$$
+```math
 x_j'=x_j+\delta,
-$$
+```
 
 where
 
-$$
+```math
 \delta\sim\mathcal{U}(-w,w).
-$$
+```
 
 Only the two adjacent kinetic links and the local potential term change. The
 proposal is accepted with probability
 
-$$
+```math
 P_{\mathrm{accept}}
 =
 \min\left(1,e^{-\Delta S_E}\right).
-$$
+```
 
 Even sites and odd sites are updated in separate vectorised passes. Sites of
 one parity do not share a direct link, so their proposals can be evaluated
@@ -326,11 +326,11 @@ together using the opposite parity as fixed neighbours.
 
 The initial proposal width is scaled with the free kinetic fluctuation:
 
-$$
+```math
 w_0
 =
 1.8\sqrt{\frac{a_\tau}{m}}.
-$$
+```
 
 During the early thermalisation sweeps, the width is adjusted every 100 sweeps
 towards a target local acceptance of $0.50$. Adaptation stops before the final
@@ -347,7 +347,7 @@ For fixed segment endpoints, the proposed interior is drawn exactly from the
 conditional kinetic distribution. The kinetic contribution cancels in the
 Metropolis-Hastings ratio, leaving only the change in potential action:
 
-$$
+```math
 P_{\mathrm{stage}}
 =
 \min\left[
@@ -357,7 +357,7 @@ P_{\mathrm{stage}}
 \left[V(x_j')-V(x_j)\right]
 \right)
 \right].
-$$
+```
 
 These non-local moves update long-wavelength structure more efficiently than
 site moves alone.
@@ -366,18 +366,18 @@ site moves alone.
 
 A centroid proposal translates every time slice by the same random amount:
 
-$$
+```math
 x_j'=x_j+c.
-$$
+```
 
 Because all differences $x_{j+1}-x_j$ are unchanged, only the potential part
 of the action enters the acceptance decision.
 
 All three potentials are even. The global reflection
 
-$$
+```math
 x_j'=-x_j
-$$
+```
 
 therefore preserves the full action exactly and is accepted automatically.
 It helps balance the two symmetry-related sectors without altering even
@@ -402,16 +402,16 @@ the statistical conclusions.
 
 The code uses the one-dimensional virial estimator. For a stationary state,
 
-$$
+```math
 \left\langle T\right\rangle
 =
 \frac{1}{2}
 \left\langle xV'(x)\right\rangle.
-$$
+```
 
 The total energy estimator on one periodic path is therefore
 
-$$
+```math
 E_{\mathrm{virial}}
 =
 \frac{1}{N}
@@ -419,33 +419,33 @@ E_{\mathrm{virial}}
 \left[
 V(x_j)+\frac{1}{2}x_jV'(x_j)
 \right].
-$$
+```
 
 For the harmonic potential this reduces to
 
-$$
+```math
 E_{\mathrm{H}}
 =
 k\left\langle x^2\right\rangle.
-$$
+```
 
 For the anharmonic potential,
 
-$$
+```math
 E_{\mathrm{A}}
 =
 k\left\langle x^2\right\rangle
 +3\lambda\left\langle x^4\right\rangle.
-$$
+```
 
 For the double well,
 
-$$
+```math
 E_{\mathrm{D}}
 =
 2b\left\langle x^2\right\rangle
 +3a\left\langle x^4\right\rangle.
-$$
+```
 
 Negative ground-state energies are possible for a double-well potential whose
 minima lie below zero. An additive shift in the potential would shift every
@@ -467,7 +467,7 @@ than individual measurements.
 For a sequence of virial-energy measurements $E_i$, the normalized Monte Carlo
 autocorrelation is
 
-$$
+```math
 \rho(t)
 =
 \frac{
@@ -475,15 +475,15 @@ $$
 }{
 \left\langle(E_i-\bar E)^2\right\rangle
 }.
-$$
+```
 
 The integrated time is estimated as
 
-$$
+```math
 \tau_{\mathrm{int}}
 =
 \frac{1}{2}+\sum_{t=1}^{W}\rho(t),
-$$
+```
 
 where the summation window ends at the first non-positive adjacent-lag pair.
 The autocorrelation itself is evaluated with an FFT.
@@ -498,11 +498,11 @@ four independent streams are then combined.
 If $B$ is the total number of blocks and $\bar E_b$ is block $b$'s mean, the
 reported standard error is
 
-$$
+```math
 \sigma_{E_0}
 =
 \frac{s_{\mathrm{block}}}{\sqrt{B}}.
-$$
+```
 
 The code requires the block length to exceed five times the measured mean
 $\tau_{\mathrm{int}}$. A custom configuration that violates this safeguard
@@ -515,11 +515,11 @@ For a periodic finite-temperature path integral, the marginal distribution of
 one time slice is proportional to the diagonal density matrix
 $\rho(x,x;\beta)$. In the large-$\beta$ limit,
 
-$$
+```math
 \frac{\rho(x,x;\beta)}{Z(\beta)}
 \longrightarrow
 |\psi_0(x)|^2.
-$$
+```
 
 Imaginary-time translation invariance allows all lattice sites to contribute
 to the histogram. The implementation retains a regular subset of approximately
@@ -536,13 +536,13 @@ by the independent Hamiltonian solver.
 For every measured path, the code calculates the circular, time-origin-averaged
 correlation
 
-$$
+```math
 C(\tau_\ell)
 =
 \frac{1}{N}
 \sum_{j=0}^{N-1}
 x_jx_{j+\ell},
-$$
+```
 
 with periodic site indices. The calculation uses the convolution theorem and
 an FFT.
@@ -551,7 +551,7 @@ For an even potential, the position operator $x$ is odd under parity. Its
 leading spectral contribution therefore connects the even ground state to the
 odd first excited state. At sufficiently large imaginary-time separation,
 
-$$
+```math
 C(\tau)
 \simeq
 A
@@ -559,13 +559,13 @@ A
 e^{-\Delta E\tau}
 +e^{-\Delta E(\beta-\tau)}
 \right],
-$$
+```
 
 where
 
-$$
+```math
 \Delta E=E_1-E_0.
-$$
+```
 
 The second exponential is the backward-propagating contribution required by
 periodic Euclidean time.
@@ -585,14 +585,14 @@ it selects the valid window with the best diagnostic score.
 
 The optimiser's initial gap comes from early measured log ratios:
 
-$$
+```math
 \Delta E_{\mathrm{initial}}
 =
 -\frac{1}{a_\tau}
 \log\left[
 \frac{C(\tau+a_\tau)}{C(\tau)}
 \right].
-$$
+```
 
 The numerical Hamiltonian benchmark is not used as an initial value or fit
 target.
@@ -606,11 +606,11 @@ Every resampled correlation is fitted on the selected window. The gap error is
 the sample standard deviation of the successful bootstrap gaps. The excited
 energy is calculated jointly in each resample:
 
-$$
+```math
 E_1^{(r)}
 =
 E_0^{(r)}+\Delta E^{(r)}.
-$$
+```
 
 This preserves the covariance between the sampled energy and correlation
 within each bootstrap replicate. All 250 fits succeeded for every production
@@ -620,28 +620,28 @@ parameter set.
 
 For every potential, the code discretises
 
-$$
+```math
 H
 =
 -\frac{1}{2m}\frac{d^2}{dx^2}+V(x)
-$$
+```
 
 on a separate position grid. The central second derivative produces a real
 symmetric tridiagonal matrix with diagonal elements
 
-$$
+```math
 H_{ii}
 =
 \frac{1}{m\Delta x^2}+V(x_i)
-$$
+```
 
 and off-diagonal elements
 
-$$
+```math
 H_{i,i\pm1}
 =
 -\frac{1}{2m\Delta x^2}.
-$$
+```
 
 `scipy.linalg.eigh_tridiagonal` returns the two lowest eigenvalues and the
 ground-state eigenvector on a 4,000-point interior grid.
@@ -654,27 +654,27 @@ precision. It is methodologically independent of the PIMC path ensemble.
 
 For
 
-$$
+```math
 V(x)=ax^4+bx^2,
 \qquad a>0,
 \qquad b<0,
-$$
+```
 
 the classical minima occur at
 
-$$
+```math
 x_{\min}
 =
 \sqrt{\frac{-b}{2a}}.
-$$
+```
 
 The default well threshold is
 
-$$
+```math
 x_{\mathrm{threshold}}
 =
 \frac{1}{2}x_{\min}.
-$$
+```
 
 Each time slice is assigned to the positive well when
 $x\geq x_{\mathrm{threshold}}$, the negative well when
@@ -684,11 +684,11 @@ well labels are counted around the periodic path.
 
 The reported diagnostic is
 
-$$
+```math
 r_{\mathrm{instanton}}
 =
 \frac{N_{\mathrm{transitions}}}{\beta}.
-$$
+```
 
 This is an instanton density along imaginary time. It is not a directly
 measured real-time transition frequency. Its quantitative value depends on the
